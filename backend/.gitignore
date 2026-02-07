@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+*.p8
+*.key
+*.pem
+
+# Data files (local dev data, not for production)
+data/

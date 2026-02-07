@@ -1,0 +1,13 @@
+{
+  "id": "turnstyle-env",
+  "name": "Turnstyle Test Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

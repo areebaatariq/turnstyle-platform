@@ -1,0 +1,4 @@
+name,email,phone,profile_photo_url,size_top,size_bottom,size_dress,size_shoes,bra_size,color_preferences
+Jane Smith,jane@example.com,+1234567890,,M,8,10,38,34B,Neutrals and blues
+John Doe,john@example.com,,,L,32,,42,,Earth tones
+Sarah Lee,sarah@example.com,+1987654321,https://example.com/photo.jpg,S,6,8,36,32C,Cool tones
