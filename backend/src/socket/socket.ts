@@ -20,6 +20,7 @@ export function initializeSocketIO(httpServer: HTTPServer): SocketIOServer {
   const frontendOrigins = [
     process.env.FRONTEND_URL,
     'http://localhost:5137',
+    'https://turnstyle.onrender.com',
     'https://turnstyle-wardrobe.onrender.com',
   ].filter((origin): origin is string => Boolean(origin));
 

@@ -2,6 +2,13 @@
 
 This guide walks through deploying the **backend** (Node.js API) and **frontend** (Vite + React) to [Render](https://render.com). You will create two services: one Web Service for the API and one Static Site (or Web Service) for the frontend.
 
+**Live URLs (production):**
+
+| Service  | URL |
+|----------|-----|
+| Frontend | https://turnstyle.onrender.com |
+| Backend  | https://turnstyle-platform.onrender.com |
+
 ---
 
 ## Prerequisites
@@ -38,15 +45,15 @@ In the Web Service → **Environment** tab, add:
 | `JWT_SECRET` | Strong random secret for JWT signing | e.g. long random string |
 | `JWT_EXPIRES_IN` | Optional | `7d` |
 | `MONGODB_URI` | MongoDB connection string (e.g. Atlas) | `mongodb+srv://user:pass@cluster.mongodb.net/dbname?retryWrites=true&w=majority` |
-| `FRONTEND_URL` | Full URL of your frontend on Render | `https://turnstyle-wardrobe.onrender.com` |
+| `FRONTEND_URL` | Full URL of your frontend on Render | `https://turnstyle.onrender.com` |
 | `GOOGLE_CLIENT_ID` | Google OAuth | From Google Cloud Console |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth | From Google Cloud Console |
-| `GOOGLE_REDIRECT_URI` | Must match Google Console; use your **backend** URL | `https://turnstyle-api.onrender.com/api/auth/google/callback` |
+| `GOOGLE_REDIRECT_URI` | Must match Google Console; use your **backend** URL | `https://turnstyle-platform.onrender.com/api/auth/google/callback` |
 | `APPLE_CLIENT_ID` | Apple Sign In | From Apple Developer |
 | `APPLE_TEAM_ID` | Apple Sign In | From Apple Developer |
 | `APPLE_KEY_ID` | Apple Sign In | From Apple Developer |
 | `APPLE_PRIVATE_KEY` or `APPLE_PRIVATE_KEY_PATH` | Apple .p8 key (see below) | Contents of `.p8` or path |
-| `APPLE_REDIRECT_URI` | Use your **backend** URL | `https://turnstyle-api.onrender.com/api/auth/apple/callback` |
+| `APPLE_REDIRECT_URI` | Use your **backend** URL | `https://turnstyle-platform.onrender.com/api/auth/apple/callback` |
 | `SENDGRID_API_KEY` | For invite emails | From SendGrid |
 | `FROM_EMAIL` | Sender email | e.g. `noreply@yourdomain.com` |
 
@@ -58,14 +65,14 @@ In the Web Service → **Environment** tab, add:
 ### 1.3 OAuth redirect URLs
 
 - In **Google Cloud Console** → Credentials → your OAuth client → add **Authorized redirect URI**:  
-  `https://<your-backend>.onrender.com/api/auth/google/callback`
+  `https://turnstyle-platform.onrender.com/api/auth/google/callback`
 - In **Apple Developer** → your Service ID → add your backend domain and redirect path:  
-  `https://<your-backend>.onrender.com/api/auth/apple/callback`
+  `https://turnstyle-platform.onrender.com/api/auth/apple/callback`
 
 ### 1.4 Deploy
 
 Click **Create Web Service**. Render will run `npm install && npm run build` then `npm start`.  
-Note the backend URL, e.g. `https://turnstyle-api.onrender.com`. You will use this as `VITE_API_URL` for the frontend.
+Note the backend URL, e.g. `https://turnstyle-platform.onrender.com`. You will use this as `VITE_API_URL` for the frontend.
 
 ---
 
@@ -94,21 +101,19 @@ Vite bakes `VITE_*` variables into the build. Add **one** variable at build time
 From your code, the frontend uses `VITE_API_URL` as the base for API calls (e.g. in `api.ts` it’s used as `API_BASE_URL`). Use the **base API URL** that matches your frontend:
 
 - If your `api.ts` expects the base to already include `/api`, set:  
-  `VITE_API_URL=https://turnstyle-api.onrender.com/api`
+  `VITE_API_URL=https://turnstyle-platform.onrender.com/api`
 - If it appends `/api` itself, set:  
-  `VITE_API_URL=https://turnstyle-api.onrender.com`
+  `VITE_API_URL=https://turnstyle-platform.onrender.com`
 
 From the codebase, `api.ts` uses `VITE_API_URL` as the full base (e.g. `http://localhost:3000/api`), so use:
 
 ```bash
-VITE_API_URL=https://<your-backend>.onrender.com/api
+VITE_API_URL=https://turnstyle-platform.onrender.com/api
 ```
-
-Replace `<your-backend>` with your actual backend service hostname (e.g. `turnstyle-api.onrender.com`).
 
 ### 2.3 Deploy
 
-Click **Create Static Site**. After the build, Render will serve the `dist` folder. Your app will be at e.g. `https://turnstyle-wardrobe.onrender.com`.
+Click **Create Static Site**. After the build, Render will serve the `dist` folder. Your app will be at e.g. `https://turnstyle.onrender.com`.
 
 ---
 
@@ -118,9 +123,10 @@ The backend already allows:
 
 - `process.env.FRONTEND_URL`
 - `http://localhost:5137`
+- `https://turnstyle.onrender.com`
 - `https://turnstyle-wardrobe.onrender.com`
 
-Set **FRONTEND_URL** on the backend to your real frontend URL (e.g. `https://turnstyle-wardrobe.onrender.com`) so CORS allows requests from your deployed frontend.
+Set **FRONTEND_URL** on the backend to your real frontend URL (e.g. `https://turnstyle.onrender.com`) so redirects and invite links use the correct domain.
 
 ---
 
@@ -142,7 +148,7 @@ Your `package.json` already has `"start": "vite preview --port $PORT --host 0.0.
 - [ ] Backend env: `NODE_ENV=production`, `JWT_SECRET`, `MONGODB_URI` (or persistent DB), `FRONTEND_URL`, Google/Apple OAuth vars, SendGrid
 - [ ] Google & Apple redirect URIs updated to backend URL
 - [ ] Frontend Static Site: root `frontend`, build `npm install && npm run build`, publish `dist`
-- [ ] Frontend env: `VITE_API_URL=https://<backend>.onrender.com/api`
+- [ ] Frontend env: `VITE_API_URL=https://turnstyle-platform.onrender.com/api`
 - [ ] After first deploy: open frontend URL and test login (Google/Apple) and API calls
 
 ---

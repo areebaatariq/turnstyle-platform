@@ -46,7 +46,7 @@ APPLE_KEY_ID=your-apple-key-id
 APPLE_PRIVATE_KEY_PATH=./path/to/AuthKey.p8
 APPLE_REDIRECT_URI=http://localhost:3000/api/auth/apple/callback
 
-# Frontend URL (for CORS)
+# Frontend URL (for CORS and redirects). Production: https://turnstyle.onrender.com
 FRONTEND_URL=http://localhost:5137
 
 # Email Configuration (for sending invitations via SendGrid)

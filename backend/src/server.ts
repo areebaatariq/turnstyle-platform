@@ -49,6 +49,7 @@ initializeSocketIO(httpServer);
 const frontendOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:5137',
+  'https://turnstyle.onrender.com',
   'https://turnstyle-wardrobe.onrender.com',
 ].filter((origin): origin is string => Boolean(origin));
 
@@ -114,7 +115,7 @@ app.post('/test/email', async (req, res) => {
       to,
       clientName: 'Test User',
       stylistName: 'Test Stylist',
-      inviteLink: 'http://localhost:5137/test-invite',
+      inviteLink: `${(process.env.FRONTEND_URL || 'http://localhost:5137').replace(/\/$/, '')}/test-invite`,
       customMessage: 'This is a test email from Turnstyle.',
     });
 
